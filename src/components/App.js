@@ -120,21 +120,21 @@ function LinktoDatabase(hash)
   console.log(evidenceLinkVideo)
   const db = admin.firestore();
   
-  db.collection("PaidBribe").get().then(function(querySnapshot) {
+  db.collection("EvidenceLinks").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       // doc.data() is never undefined for query doc snapshots
-      db.collection("PaidBribe").doc(doc.id).collection("all_data").get().then(function(subquerySnapshot) {
+      db.collection("EvidenceLinks").doc(doc.complaintID).collection("all_data").get().then(function(subquerySnapshot) {
         subquerySnapshot.forEach(function(subdoc) {
-          console.log(subdoc.id, " => ", subdoc.data()["id"]);
-          if(uid.localeCompare(subdoc.data()["id"]) == 0) {
+          console.log(subdoc.complaintID, " => ", subdoc.data()["complaintID"]);
+          if(uid.localeCompare(subdoc.data()["complaintID"]) == 0) {
             console.log("asd")
-            db.collection('PaidBribe')
-            .doc(doc.id)
+            db.collection('EvidenceLinks')
+            .doc(doc.complaintID)
             .collection("all_data")
-            .doc(subdoc.id)
+            .doc(subdoc.complaintID)
             .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
           }
-          console.log("4rMA2514".localeCompare(subdoc.data()["id"]))
+          console.log("4rMA2514".localeCompare(subdoc.data()["complaintID"]))
         });
       });
     });
