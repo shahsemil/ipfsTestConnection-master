@@ -1,5 +1,8 @@
 /* Styles go here */
-.button {
+navbar{
+  width: 100vw;
+}
+/* .button {
     border: none;
     color: white;
     padding: 15px 32px;
@@ -10,6 +13,9 @@
     position: absolute;
     left: 200px;
     top: 650px;
+  } */
+  .btn-success {
+    width: 90px;
   }
   .image{
     left: 200px;
