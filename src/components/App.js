@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from '../logo.png';
 import './App.css';
 import web3 from 'web3';
 import evidence from '../abis/evidence.json';
@@ -21,7 +20,7 @@ var noFiles=0;
 /******** you need to take a unique id which would be given to us whenever someone is redirected to website****** */
 var unique_id=0;//store that unique id here
 memeHashes[0]=unique_id;
-var pointer_memeHashes=1;//this pointer is for memeHashes array
+//var pointer_memeHashes=1;//this pointer is for memeHashes array
 var uid = '';
 
 
@@ -78,7 +77,7 @@ function LinktoDatabase(hash)
   {
     evidenceLinkImage[i]=("http://ipfs.io/ipfs/").concat(evidenceLinkImage[i])
   }
-  evidenceLinkVideoe=memeHashVideo.split('/');
+  evidenceLinkVideo=memeHashVideo.split('/');
   for(var i=0;i<noFiles;i++)
   {
     evidenceLinkVideo[i]=("http://ipfs.io/ipfs/").concat(evidenceLinkVideo[i])
