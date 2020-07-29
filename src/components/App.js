@@ -268,17 +268,74 @@ class App extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            semil ipfs 
-          <ul className="navbar-nav px-3">
-            <li className="nav-item text-nowrop d-none d-sm-none d-sm-block"></li>
-            <small className="text-white">{this.state.account}</small>
-          </ul>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a className="navbar-brand" href="">IPFS</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul className="navbar-nav">
+              <li className="nav-item"></li>
+              <small className="text-white">{this.state.account}</small>
+            </ul>
+          </div>
         </nav>
         <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
+          <div className="row justify-content-center text-center">
+            <main role="main">
+              <div className="jumbotron mr-auto ml-auto">
+                <h1 className="display-4">Upload Evidence</h1>
+                <a>
+                  <img src={'http://ipfs.io/ipfs/Qme8KvWTgE6bvBGMzR6pGXYaWN1FpMRgaw66FrNyp2mMzB'} className="App-logo" />
+                </a>
+                <hr className="my-4"></hr>
+
+                <form onSubmit={this.onSubmit}>
+                  <div className="submit">
+                    <div className="image">
+                      <h3 className="lead" >Upload Image</h3>
+                      <table className="table table-borderless">
+                        <tr className="p-2">
+                          <td><input type='file' className="btn btn-secondary" onChange={this.captureFileImage} /></td>
+                          <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmitImage}/></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div className="video">
+                      <h3 className="lead" >Upload Video</h3>
+                      <table className="table table-borderless">
+                        <tr className="p-2">
+                          <td><input type='file' className="btn btn-secondary" onChange={this.captureFileVideo} /></td>
+                          <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmitVideo}/></td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </form>
+
+                <hr className="my-4"></hr>
+                <div className="button">
+                  <form id="user" onUsername={this.onUsername}>
+                    <table className="table table-borderless">
+                          <tr>
+                            {/* <input type="text" id="fname" name="fname"/> */}
+                            {/* <input type="submit" id="uname" value="Enter your unique id" onChange={this.onUsername}/>  */}
+                            <td><input placeholder="Enter your Unique ID" className="form-control" id="uname"/></td>
+                            <td><button className="btn btn-success" onClick={this.buttonEnterIdListner} >Add UID</button></td>
+                          </tr>
+                    </table>
+                    <div className="submit">
+                      <table className="table table-borderless">
+                        <tr>
+                          <td><input placeholder="Enter your Unique ID" className="form-control" id="uname"/></td>
+                          <td><button type="submit" className="btn btn-success" id="done" value="Submit" onClick={this.onDone}>DONE</button></td>
+                        </tr>
+                      </table>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              {/* <div className="content mr-auto ml-auto">
                 <h2>Upload Evidence</h2>
                 <a>
                   <img src={'http://ipfs.io/ipfs/Qme8KvWTgE6bvBGMzR6pGXYaWN1FpMRgaw66FrNyp2mMzB'} className="App-logo" />
@@ -286,22 +343,22 @@ class App extends Component {
                 <p>&nbsp;</p>
                 <form onSubmit={this.onSubmit}>
                   <div className="submit">
-                     <div className="image">
-                       <h3>Upload Image</h3>
-                    <input type='file' onChange={this.captureFileImage} />
-                    <input type='submit' onChange={this.onSubmitImage}/>
+                    <div className="image">
+                      <h3>Upload Image</h3>
+                      <input type='file' className="btn btn-secondary" onChange={this.captureFileImage} />
+                      <input type='submit' className="btn btn-lg btn-outline-success" onChange={this.onSubmitImage}/>
                     </div>
                     <div className="video">
                       <h3>Upload Video</h3>
-                    <input type='file' onChange={this.captureFileVideo} />
-                    <input type='submit' onChange={this.onSubmitVideo}/>
-                     </div>
-                   </div>
+                      <input type='file' className="btn btn-secondary" onChange={this.captureFileVideo} />
+                      <input type='submit' className="btn btn-outline-success" onChange={this.onSubmitVideo}/>
+                    </div>
+                  </div>
                 </form>
                 <div className="button">
                   <form id="user" onUsername={this.onUsername}>
-                    {/* <input type="text" id="fname" name="fname"/> */}
-                    {/* <input type="submit" id="uname" value="Enter your unique id" onChange={this.onUsername}/>  */}
+                    <input type="text" id="fname" name="fname"/>
+                    <input type="submit" id="uname" value="Enter your unique id" onChange={this.onUsername}/> 
                     <input placeholder="Enter your unique id" id="uname"/> 
                     <button onClick={this.buttonEnterIdListner} >Add UID</button>
                     <div className="submit">
@@ -310,7 +367,7 @@ class App extends Component {
                     </div>
                   </form>
                 </div>
-              </div>
+              </div> */}
             </main>
           </div>
         </div>
