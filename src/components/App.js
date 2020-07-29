@@ -4,9 +4,44 @@ import web3 from 'web3';
 import evidence from '../abis/evidence.json';
 // Added this new Library ipfs-api
 const ipfsAPI = require('ipfs-api');
-const ethers = require('ethers')
+const ethers = require('ethers');
 
+// Import Admin SDK
+const admin = require('firebase');
+const firebaseConfig = {
+  apiKey: "AIzaSyDMD127uosKN8bfmhCD_jwz_q09En2T_0g",
+  authDomain: "bribe-block.firebaseapp.com",
+  databaseURL: "https://bribe-block.firebaseio.com",
+  projectId: "bribe-block",
+  storageBucket: "bribe-block.appspot.com",
+  messagingSenderId: "883197621162",
+  appId: "1:883197621162:web:e1cb0f7c7735f6e84eb1d3",
+  measurementId: "G-GXPSH1W25J"
+};
+admin.initializeApp(firebaseConfig);
+admin.analytics();
 
+const db = admin.firestore();
+//test data
+// db.collection("PaidBribe").get().then(function(querySnapshot) {
+//   querySnapshot.forEach(function(doc) {
+//     // doc.data() is never undefined for query doc snapshots
+//     db.collection("PaidBribe").doc(doc.id).collection("all_data").get().then(function(subquerySnapshot) {
+//       subquerySnapshot.forEach(function(subdoc) {
+//         console.log(subdoc.id, " => ", subdoc.data()["id"]);
+//         if("4rMA2514".localeCompare(subdoc.data()["id"]) == 0) {
+//           console.log("asd")
+//           db.collection('PaidBribe')
+//           .doc(doc.id)
+//           .collection("all_data")
+//           .doc(subdoc.id)
+//           .update({ EvidenceLinkImage: ["hi", "bye"], EvidenceLinkVideo: ["hi", "bye"] });
+//         }
+//         console.log("4rMA2514".localeCompare(subdoc.data()["id"]))
+//       });
+//     });
+//   });
+// });
 
 // New code according to ipfs-api
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
@@ -22,7 +57,6 @@ var unique_id=0;//store that unique id here
 memeHashes[0]=unique_id;
 //var pointer_memeHashes=1;//this pointer is for memeHashes array
 var uid = '';
-
 
 // Blockchain Connection
 // Configure blockchain
@@ -84,6 +118,27 @@ function LinktoDatabase(hash)
   }
   console.log(evidenceLinkImage)
   console.log(evidenceLinkVideo)
+  const db = admin.firestore();
+  
+  db.collection("PaidBribe").get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      // doc.data() is never undefined for query doc snapshots
+      db.collection("PaidBribe").doc(doc.id).collection("all_data").get().then(function(subquerySnapshot) {
+        subquerySnapshot.forEach(function(subdoc) {
+          console.log(subdoc.id, " => ", subdoc.data()["id"]);
+          if(uid.localeCompare(subdoc.data()["id"]) == 0) {
+            console.log("asd")
+            db.collection('PaidBribe')
+            .doc(doc.id)
+            .collection("all_data")
+            .doc(subdoc.id)
+            .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
+          }
+          console.log("4rMA2514".localeCompare(subdoc.data()["id"]))
+        });
+      });
+    });
+  });
 }
 
 class App extends Component {
