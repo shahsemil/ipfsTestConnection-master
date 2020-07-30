@@ -43,6 +43,24 @@ const db = admin.firestore();
 //   });
 // });
 
+// db.collection("EvidenceLinks").get().then(function(querySnapshot) {
+//   querySnapshot.forEach(function(doc) {
+//     // doc.data() is never undefined for query doc snapshots
+//     //test data
+//     evidenceLinkImage = ["semil", "sidd"]
+//     evidenceLinkVideo = ["t1", "t2", "t3"]
+//     uid = "4rMA5127"
+//     console.log(uid.localeCompare(doc.id))
+//     console.log(doc.id)
+//     if(uid.localeCompare(doc.id) == 0) {
+//       console.log("Success")
+//       db.collection('EvidenceLinks')
+//       .doc(doc.id)
+//       .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
+//     }
+//   });
+// });
+
 // New code according to ipfs-api
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 var memeHash="";
@@ -116,27 +134,19 @@ function LinktoDatabase(hash)
   {
     evidenceLinkVideo[i]=("http://ipfs.io/ipfs/").concat(evidenceLinkVideo[i])
   }
+  evidenceLinkImage = ["semil", "sidd"]
+  evidenceLinkVideo = ["t1", "t2", "t3"]
   console.log(evidenceLinkImage)
   console.log(evidenceLinkVideo)
-  const db = admin.firestore();
   
   db.collection("EvidenceLinks").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       // doc.data() is never undefined for query doc snapshots
-      db.collection("EvidenceLinks").doc(doc.complaintID).collection("all_data").get().then(function(subquerySnapshot) {
-        subquerySnapshot.forEach(function(subdoc) {
-          console.log(subdoc.complaintID, " => ", subdoc.data()["complaintID"]);
-          if(uid.localeCompare(subdoc.data()["complaintID"]) == 0) {
-            console.log("asd")
-            db.collection('EvidenceLinks')
-            .doc(doc.complaintID)
-            .collection("all_data")
-            .doc(subdoc.complaintID)
-            .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
-          }
-          console.log("4rMA2514".localeCompare(subdoc.data()["complaintID"]))
-        });
-      });
+      if(uid.localeCompare(doc.id) == 0) {
+        db.collection('EvidenceLinks')
+        .doc(doc.id)
+        .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
+      }
     });
   });
 }
