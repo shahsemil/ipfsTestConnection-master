@@ -247,18 +247,19 @@ class App extends Component {
   }
   
   /*on submit code*/
-  onSubmitImage=(event)=>{
+  /*onSubmitImage=(event)=>{
     event.preventDefault()
     console.log("click on done when all hashes are uploaded")
     console.log(memeHashImage)
     
     //you need to call set function smart contract where you will give memeHash in string 
     //and it will return index of that hash in Integer shore that in memehashes array
-  }
-  onSubmitVideo=(event)=>{
+  }*/
+  onSubmit=(event)=>{
     event.preventDefault()
     console.log("click on done when all hashes are uploaded")
     console.log(memeHashVideo)
+    console.log(memeHashImage)
     
     //you need to call set function smart contract where you will give memeHash in string 
     //and it will return index of that hash in Integer shore that in memehashes array
@@ -307,7 +308,7 @@ class App extends Component {
                       <table className="table table-borderless">
                         <tr className="p-2">
                           <td><input type='file' className="btn btn-secondary" onChange={this.captureFileImage} /></td>
-                          <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmitImage}/></td>
+                          <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmit}/></td>
                         </tr>
                       </table>
                     </div>
@@ -316,7 +317,7 @@ class App extends Component {
                       <table className="table table-borderless">
                         <tr className="p-2">
                           <td><input type='file' className="btn btn-secondary" onChange={this.captureFileVideo} /></td>
-                          <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmitVideo}/></td>
+                          <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmit}/></td>
                         </tr>
                       </table>
                     </div>
@@ -336,8 +337,7 @@ class App extends Component {
                     </table>
                     <div className="submit">
                       <table className="table table-borderless">
-                        <tr>
-                          <td><input placeholder="Enter your Unique ID" className="form-control" id="uname"/></td>
+                        <tr><td><input placeholder="Enter your Unique ID" className="form-control" id="uname"/></td>
                           <td><button type="submit" className="btn btn-success" id="done" value="Submit" onClick={this.onDone}>DONE</button></td>
                         </tr>
                       </table>
