@@ -129,14 +129,16 @@ function LinktoDatabase(hash)
           if(uid.localeCompare(subdoc.data()["complaintID"]) == 0) {
             console.log("asd")
             db.collection('EvidenceLinks')
-            .doc(doc.complaintID)
-            .collection("all_data")
+            .doc(doc.id)
+           .collection("all_data")
             .doc(subdoc.complaintID)
             .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
           }
           console.log("4rMA2514".localeCompare(subdoc.data()["complaintID"]))
         });
       });
+     console.log(doc.id)
+     console.log(doc.data()["evidenceLinkImage"])
     });
   });
 }
