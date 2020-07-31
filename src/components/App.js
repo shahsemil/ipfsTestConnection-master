@@ -165,11 +165,18 @@ class App extends Component {
   buttonEnterIdListner = (event) => {
     event.preventDefault()
     uid = document.getElementById('uname').value;
-    // alert(uid)
-    // Send UID and Hash
-    memeHash=memeHashVideo.concat(memeHashImage)
-    addToBlockchain(uid,memeHash);
-    // Alert.alert(uname);
+
+    // validate uid - check if it exists in data base
+    db.collection("EvidenceLinks").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        if(uid.localeCompare(doc.id) == 0) {
+          // Send UID and Hash
+          memeHash=memeHashVideo.concat(memeHashImage)
+          addToBlockchain(uid,memeHash);
+        }
+      });
+    });
   }
   /*async loadWeb3(){
     if(window.ethereum){
