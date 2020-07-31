@@ -339,10 +339,8 @@ class App extends Component {
                     <div className="image">
                       <h3 className="lead" >Upload Image</h3>
                       <table className="table table-borderless">
-                        <tr className="p-2 text-center">
+                        <tr className="p-2">
                           <td><input type='file' className="btn btn-secondary" onChange={this.captureFileImage} /></td>
-                          </tr>
-                          <tr className='text-center'>
                           <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmit}/></td>
                         </tr>
                       </table>
@@ -350,10 +348,8 @@ class App extends Component {
                     <div className="video">
                       <h3 className="lead" >Upload Video</h3>
                       <table className="table table-borderless">
-                      <tr className="p-2 text-center">
+                        <tr className="p-2">
                           <td><input type='file' className="btn btn-secondary" onChange={this.captureFileVideo} /></td>
-                        </tr>
-                        <tr class='text-center'>
                           <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmit}/></td>
                         </tr>
                       </table>
@@ -365,12 +361,10 @@ class App extends Component {
                 <div className="button">
                   <form id="user" onUsername={this.onUsername}>
                     <table className="table table-borderless">
-                    <tr class='text-center'>
+                          <tr>
                             {/* <input type="text" id="fname" name="fname"/> */}
                             {/* <input type="submit" id="uname" value="Enter your unique id" onChange={this.onUsername}/>  */}
                             <td><input placeholder="Enter your Unique ID" className="form-control" id="uname"/></td>
-                          </tr>
-                          <tr class='text-center'>  
                             <td><button className="btn btn-success" onClick={this.buttonEnterIdListner} >Add UID</button></td>
                           </tr>
                     </table>
