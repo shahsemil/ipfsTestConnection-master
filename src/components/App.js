@@ -81,7 +81,7 @@ var unique_id=0;//store that unique id here
 memeHashes[0]=unique_id;
 //var pointer_memeHashes=1;//this pointer is for memeHashes array
 var uid = '';
-
+var finalID='';
 // Blockchain Connection
 // Configure blockchain
 // Address : 0xc599CC35B2207e2e6E6Ca02845E39dbBbFB05417
@@ -183,7 +183,7 @@ class App extends Component {
   buttonEnterIdListner = (event) => {
     event.preventDefault()
     uid = document.getElementById('uname').value;
-
+    finalID=uid
     var counterUIDexists = false;
     // validate uid - check if it exists in data base
     db.collection("EvidenceLinks").get().then(function(querySnapshot) {
@@ -307,8 +307,7 @@ class App extends Component {
   onDone=(event)=>{
     event.preventDefault();
       //here you have to give UID of which data we want to fetch
-      uid = document.getElementById('uname').value;
-      viewFromBlockchain(uid)
+      viewFromBlockchain(finalID)
   }
   render() {
     return (
@@ -371,7 +370,7 @@ class App extends Component {
                     </table>
                     <div className="submit">
                       <table className="table table-borderless">
-                        <tr><td><input placeholder="Enter your Unique ID" className="form-control" id="uname"/></td>
+                        <tr>
                           <td><button type="submit" className="btn btn-success" id="done" value="Submit" onClick={this.onDone}>DONE</button></td>
                         </tr>
                       </table>
