@@ -147,17 +147,10 @@ function LinktoDatabase(hash)
   {
     evidenceLinkVideo[i]=("http://ipfs.io/ipfs/").concat(evidenceLinkVideo[i])
   }
- // evidenceLinkImage = ["semil", "sidd"]
-  //evidenceLinkVideo = ["t1", "t2", "t3"]
-  console.log(evidenceLinkImage)
-  console.log(evidenceLinkVideo)
   
   db.collection("EvidenceLinks").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
-      uid = "4rMA1201"
       if(uid.localeCompare(doc.id) == 0) {
-        evidenceLinkImage = ["001"]
-        evidenceLinkVideo = ["001"]
         db.collection('EvidenceLinks')
         .doc(doc.id).get().then(function(values) {
           if(values.data()["EvidenceLinkImage"].length > 0) {
