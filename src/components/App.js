@@ -43,20 +43,26 @@ const db = admin.firestore();
 //   });
 // });
 
+//test
 // db.collection("EvidenceLinks").get().then(function(querySnapshot) {
 //   querySnapshot.forEach(function(doc) {
-//     // doc.data() is never undefined for query doc snapshots
-//     //test data
-//     evidenceLinkImage = ["semil", "sidd"]
-//     evidenceLinkVideo = ["t1", "t2", "t3"]
-//     uid = "4rMA5127"
-//     console.log(uid.localeCompare(doc.id))
-//     console.log(doc.id)
+//     uid = "4rMA1201"
 //     if(uid.localeCompare(doc.id) == 0) {
-//       console.log("Success")
+//       evidenceLinkImage = ["001"]
+//       evidenceLinkVideo = ["001"]
 //       db.collection('EvidenceLinks')
-//       .doc(doc.id)
-//       .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
+//       .doc(doc.id).get().then(function(values) {
+//         if(values.data()["EvidenceLinkImage"].length > 0) {
+//           evidenceLinkImage = evidenceLinkImage.concat(values.data()["EvidenceLinkImage"]);
+
+//         }
+//         if(values.data()["EvidenceLinkVideo"].length > 0) {
+//           evidenceLinkVideo = evidenceLinkVideo.concat(values.data()["EvidenceLinkVideo"]);
+//         }
+//         db.collection('EvidenceLinks')
+//         .doc(doc.id)
+//         .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
+//       });
 //     }
 //   });
 // });
@@ -141,11 +147,23 @@ function LinktoDatabase(hash)
   
   db.collection("EvidenceLinks").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
-      // doc.data() is never undefined for query doc snapshots
+      uid = "4rMA1201"
       if(uid.localeCompare(doc.id) == 0) {
+        evidenceLinkImage = ["001"]
+        evidenceLinkVideo = ["001"]
         db.collection('EvidenceLinks')
-        .doc(doc.id)
-        .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
+        .doc(doc.id).get().then(function(values) {
+          if(values.data()["EvidenceLinkImage"].length > 0) {
+            evidenceLinkImage = evidenceLinkImage.concat(values.data()["EvidenceLinkImage"]);
+  
+          }
+          if(values.data()["EvidenceLinkVideo"].length > 0) {
+            evidenceLinkVideo = evidenceLinkVideo.concat(values.data()["EvidenceLinkVideo"]);
+          }
+          db.collection('EvidenceLinks')
+          .doc(doc.id)
+          .update({ EvidenceLinkImage: evidenceLinkImage, EvidenceLinkVideo: evidenceLinkVideo });
+        });
       }
     });
   });
@@ -165,11 +183,27 @@ class App extends Component {
   buttonEnterIdListner = (event) => {
     event.preventDefault()
     uid = document.getElementById('uname').value;
-    // alert(uid)
-    // Send UID and Hash
-    memeHash=memeHashVideo.concat(memeHashImage)
-    addToBlockchain(uid,memeHash);
-    // Alert.alert(uname);
+
+    var counterUIDexists = false;
+    // validate uid - check if it exists in data base
+    db.collection("EvidenceLinks").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        if(uid.localeCompare(doc.id) == 0) {
+          // Send UID and Hash
+          memeHash=memeHashVideo.concat(memeHashImage);
+          addToBlockchain(uid,memeHash);
+        }
+      });
+    })
+    .then(function() {
+      if(counterUIDexists == false) {
+        alert("Invalid UID");
+      }
+      else {
+        console.log("uid updated successfully")
+      }
+    });
   }
   /*async loadWeb3(){
     if(window.ethereum){
