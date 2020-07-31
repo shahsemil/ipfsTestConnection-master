@@ -106,28 +106,35 @@ async function addToBlockchain(uid,memehash) {
   const to = databaseFetch.to
   const hash = databaseFetch.hash
   console.log("FromAddress: "+from+" ToAddress: "+to+" rinkebyTXhash: "+hash) 
-  alert("UID added succesfully please enter uid again in DONE field")
+  alert("UID added succesfully")
 };
 
+var counterUIDexists = false;
 async function viewFromBlockchain(uid) { 
-  console.log("reacing here")
-  const databasePosFetch = await aharyaContract.functions.ipfsID(uid);
-  const floatValue = ethers.utils.formatUnits(databasePosFetch,'wei');
-  const EvidencePos = parseInt(floatValue);
-  console.log(EvidencePos) 
-  const databaseFetch = await aharyaContract.functions.ipfsDatabase(EvidencePos);
-  const id = databaseFetch.id;
-  const name = databaseFetch.name;
-  const hash = databaseFetch.hash;
-  console.log("ID: "+id+" Name/UID: "+name+" Hash: "+hash)
-  if(!(hash.localeCompare(memeHash)))
-  {
-  LinktoDatabase(hash);
-  alert("data succesfully recorded")
-  }else{
-    alert("please click on done again")
+  if(counterUIDexists) {
+    console.log("reacing here")
+    const databasePosFetch = await aharyaContract.functions.ipfsID(uid);
+    const floatValue = ethers.utils.formatUnits(databasePosFetch,'wei');
+    const EvidencePos = parseInt(floatValue);
+    console.log(EvidencePos) 
+    const databaseFetch = await aharyaContract.functions.ipfsDatabase(EvidencePos);
+    const id = databaseFetch.id;
+    const name = databaseFetch.name;
+    const hash = databaseFetch.hash;
+    console.log("ID: "+id+" Name/UID: "+name+" Hash: "+hash)
+    if(!(hash.localeCompare(memeHash)))
+    {
+    LinktoDatabase(hash);
+    alert("data succesfully recorded")
+    }else{
+      alert("please click on done again")
+    }
+  }
+  else {
+    alert("Validate UID First")
   }
 };
+
 function LinktoDatabase(hash)
 {
   evidenceLinkImage=memeHashImage.split('/');
@@ -183,27 +190,37 @@ class App extends Component {
   buttonEnterIdListner = (event) => {
     event.preventDefault()
     uid = document.getElementById('uname').value;
-    finalID=uid
-    var counterUIDexists = false;
+    finalID=uid;
     // validate uid - check if it exists in data base
-    db.collection("EvidenceLinks").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        if(uid.localeCompare(doc.id) == 0) {
-          // Send UID and Hash
-          memeHash=memeHashVideo.concat(memeHashImage);
-          addToBlockchain(uid,memeHash);
-        }
-      });
-    })
-    .then(function() {
-      if(counterUIDexists == false) {
-        alert("Invalid UID");
+    const promise = (new Promise((resolve, reject) => {
+      db.collection("EvidenceLinks").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+          if(uid.localeCompare(doc.id) == 0) {
+            // Send UID and Hash
+            counterUIDexists = true;
+            memeHash=memeHashVideo.concat(memeHashImage);
+            addToBlockchain(uid,memeHash);
+            resolve(1);
+          }
+          resolve(0);
+        });
+      })
+    }))
+    .then((value) => {
+      if(value == 1) {
+        console.log("Verified");
       }
-      else {
-        console.log("uid updated successfully")
+      else{
+        alert("Invalid");
       }
     });
+    // if(counterUIDexists == false) {
+    //   alert("Invalid UID");
+    // }
+    // else {
+    //   console.log("uid updated successfully");
+    // }
   }
   /*async loadWeb3(){
     if(window.ethereum){
@@ -371,7 +388,7 @@ class App extends Component {
                     <div className="submit">
                       <table className="table table-borderless">
                         <tr>
-                          <td><button type="submit" className="btn btn-success" id="done" value="Submit" onClick={this.onDone}>DONE</button></td>
+                          <td><button type="submit" className="btn btn-success" id="done" value="Submit" onClick={this.onDone}>Submit</button></td>
                         </tr>
                       </table>
                     </div>
