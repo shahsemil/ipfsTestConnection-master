@@ -106,7 +106,7 @@ async function addToBlockchain(uid,memehash) {
   const to = databaseFetch.to
   const hash = databaseFetch.hash
   console.log("FromAddress: "+from+" ToAddress: "+to+" rinkebyTXhash: "+hash) 
-  alert("UID added succesfully")
+  alert("UID added succesfully.please clear the field and enter uid again and click on submit!!")
 };
 
 var counterUIDexists = false;
@@ -205,7 +205,7 @@ class App extends Component {
         console.log("Verified");
       }
       else{
-        alert("Invalid");
+        alert("hold on for a sec");
       }
     });
     // if(counterUIDexists == false) {
