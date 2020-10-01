@@ -76,9 +76,6 @@ var memeHashes=[];
 var evidenceLinkImage=[];
 var evidenceLinkVideo=[];
 var noFiles=0;
-/******** you need to take a unique id which would be given to us whenever someone is redirected to website****** */
-var unique_id=0;//store that unique id here
-memeHashes[0]=unique_id;
 //var pointer_memeHashes=1;//this pointer is for memeHashes array
 var uid = '';
 var finalID='';
@@ -112,16 +109,16 @@ async function addToBlockchain(uid,memehash) {
 var counterUIDexists = false;
 async function viewFromBlockchain(uid) { 
   if(counterUIDexists) {
-    console.log("reacing here")
+    console.log("reacting here")
     const databasePosFetch = await aharyaContract.functions.ipfsID(uid);
     const floatValue = ethers.utils.formatUnits(databasePosFetch,'wei');
-    const EvidencePos = parseInt(floatValue);
-    console.log(EvidencePos) 
-    const databaseFetch = await aharyaContract.functions.ipfsDatabase(EvidencePos);
-    const id = databaseFetch.id;
-    const name = databaseFetch.name;
-    const hash = databaseFetch.hash;
-    console.log("ID: "+id+" Name/UID: "+name+" Hash: "+hash)
+    // const EvidencePos = parseInt(floatValue);
+    console.log(parseInt(floatValue)) 
+    const databaseFetch = await aharyaContract.functions.ipfsDatabase(parseInt(floatValue));
+    // const id = databaseFetch.id;
+    // const name = databaseFetch.name;
+    // const hash = databaseFetch.hash;
+    console.log("ID: "+databaseFetch.id+" Name/UID: "+databaseFetch.name+" Hash: "+databaseFetch.hash)
     if(!(hash.localeCompare(memeHash)))
     {
     LinktoDatabase(hash);
@@ -183,7 +180,7 @@ class App extends Component {
   buttonEnterIdListner = (event) => {
     event.preventDefault()
     uid = document.getElementById('uname').value;
-    finalID=uid;
+    // finalID=uid;
     // validate uid - check if it exists in data base
     const promise = (new Promise((resolve, reject) => {
       db.collection("EvidenceLinks").get().then(function(querySnapshot) {
@@ -239,19 +236,19 @@ class App extends Component {
       this.setState({
         buffer:Buffer(reader.result)
       })
-      const bufferfile= Buffer(reader.result)
+      // const bufferfile= Buffer(reader.result)
       // Uploading File Code
       // Ive written code to upload file to the IPFS here itself
-      ipfs.files.add(bufferfile, function (err, file) {
+      ipfs.files.add(Buffer(reader.result), function (err, file) {
         if (err) {
           console.log(err);
         }
         noFiles=noFiles+1;
         alert("image added succesfully you can select other image if you want to add")
         // This will print the hash
-        var temp;
-        temp=file[0].hash.concat('/')
-        memeHashImage=memeHashImage.concat(temp)
+        // var temp;
+        // temp=file[0].hash.concat('/')
+        memeHashImage=memeHashImage.concat(file[0].hash.concat('/'))
         console.log("click on submit")
       })
       
@@ -270,19 +267,21 @@ class App extends Component {
       this.setState({
         buffer:Buffer(reader.result)
       })
-      const bufferfile= Buffer(reader.result)
+
+      // const bufferfile= Buffer(reader.result)
+
       // Uploading File Code
       // Ive written code to upload file to the IPFS here itself
-      ipfs.files.add(bufferfile, function (err, file) {
+      ipfs.files.add(Buffer(reader.result), function (err, file) {
         if (err) {
           console.log(err);
         }
         noFiles=noFiles+1;
         alert("video added succesfully you can select other image if you want to add")
         // This will print the hash
-        var temp;
-        temp=file[0].hash.concat('/')
-        memeHashVideo=memeHashVideo.concat(temp)
+        // var temp;
+        // temp=file[0].hash.concat('/')
+        memeHashVideo=memeHashVideo.concat(file[0].hash.concat('/'))
         console.log("click on submit")
       })
       
@@ -350,7 +349,7 @@ class App extends Component {
                       <h3 className="lead" >Upload Image</h3>
                       <table className="table table-borderless">
                       <tr className="p-2 text-center">
-                          <td><input type='file' className="btn btn-secondary" onChange={this.captureFileImage} /></td>
+                          <td><input type='file' className="btn-outline-secondary" onChange={this.captureFileImage} /></td>
                           </tr>
                           <tr className='text-center'>
                           <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmit}/></td>
@@ -361,7 +360,7 @@ class App extends Component {
                       <h3 className="lead" >Upload Video</h3>
                       <table className="table table-borderless">
                       <tr className="p-2 text-center">
-                          <td><input type='file' className="btn btn-secondary" onChange={this.captureFileVideo} /></td>
+                          <td><input type='file' className="btn-outline-secondary" onChange={this.captureFileVideo} /></td>
                         </tr>
                         <tr class='text-center'>
                           <td><input type='submit' className="btn btn-outline-success" onChange={this.onSubmit}/></td>
@@ -381,7 +380,7 @@ class App extends Component {
                             <td><input placeholder="Enter your Unique ID" className="form-control" id="uname"/></td>
                           </tr>
                           <tr class='text-center'>  
-                            <td><button className="btn btn-success" onClick={this.buttonEnterIdListner} >Add UID</button></td>
+                            <td><button className="btn btn-warning" onClick={this.buttonEnterIdListner} >Add UID</button></td>
                           </tr>
                     </table>
                     <div className="submit">
